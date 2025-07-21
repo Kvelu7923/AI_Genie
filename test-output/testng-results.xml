@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results ignored="4" total="7" passed="3" failed="0" skipped="0">
+  <reporter-output>
+  </reporter-output>
+  <suite started-at="2025-07-21T15:07:29 IST" name="Default suite" finished-at="2025-07-21T15:07:31 IST" duration-ms="1769">
+    <groups>
+    </groups>
+    <test started-at="2025-07-21T15:07:29 IST" name="Default test" finished-at="2025-07-21T15:07:31 IST" duration-ms="1769">
+      <class name="test.api.salesforce.TC001_CreateLead">
+        <test-method is-config="true" signature="startReport()[pri:0, instance:test.api.salesforce.TC001_CreateLead@75db5df9]" started-at="2025-07-21T15:07:22 IST" name="startReport" finished-at="2025-07-21T15:07:29 IST" duration-ms="7097" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startReport -->
+        <test-method is-config="true" signature="setValues()[pri:0, instance:test.api.salesforce.TC001_CreateLead@75db5df9]" started-at="2025-07-21T15:07:29 IST" name="setValues" finished-at="2025-07-21T15:07:29 IST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setValues -->
+        <test-method is-config="true" signature="startTestCase()[pri:0, instance:test.api.salesforce.TC001_CreateLead@75db5df9]" started-at="2025-07-21T15:07:29 IST" name="startTestCase" finished-at="2025-07-21T15:07:29 IST" duration-ms="13" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startTestCase -->
+        <test-method is-config="true" signature="setNode()[pri:0, instance:test.api.salesforce.TC001_CreateLead@75db5df9]" started-at="2025-07-21T15:07:29 IST" name="setNode" finished-at="2025-07-21T15:07:29 IST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setNode -->
+        <test-method signature="runCreateNewCase()[pri:0, instance:test.api.salesforce.TC001_CreateLead@75db5df9]" started-at="2025-07-21T15:07:29 IST" name="runCreateNewCase" finished-at="2025-07-21T15:07:30 IST" duration-ms="743" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runCreateNewCase -->
+        <test-method is-config="true" signature="endResult()[pri:0, instance:test.api.salesforce.TC001_CreateLead@75db5df9]" started-at="2025-07-21T15:07:31 IST" name="endResult" finished-at="2025-07-21T15:07:32 IST" duration-ms="543" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- endResult -->
+      </class> <!-- test.api.salesforce.TC001_CreateLead -->
+      <class name="test.api.salesforce.TC002_EditLead">
+        <test-method is-config="true" signature="setValues()[pri:0, instance:test.api.salesforce.TC002_EditLead@8c3b9d]" started-at="2025-07-21T15:07:29 IST" name="setValues" finished-at="2025-07-21T15:07:29 IST" duration-ms="0" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setValues -->
+        <test-method is-config="true" signature="startTestCase()[pri:0, instance:test.api.salesforce.TC002_EditLead@8c3b9d]" started-at="2025-07-21T15:07:30 IST" name="startTestCase" finished-at="2025-07-21T15:07:30 IST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startTestCase -->
+        <test-method is-config="true" signature="setNode()[pri:0, instance:test.api.salesforce.TC002_EditLead@8c3b9d]" started-at="2025-07-21T15:07:30 IST" name="setNode" finished-at="2025-07-21T15:07:30 IST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setNode -->
+        <test-method signature="runCreateNewCase()[pri:0, instance:test.api.salesforce.TC002_EditLead@8c3b9d]" started-at="2025-07-21T15:07:30 IST" name="runCreateNewCase" finished-at="2025-07-21T15:07:31 IST" depends-on-methods="test.api.salesforce.TC001_CreateLead.runCreateNewCase" duration-ms="652" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runCreateNewCase -->
+      </class> <!-- test.api.salesforce.TC002_EditLead -->
+      <class name="test.api.salesforce.TC003_GetLead">
+        <test-method is-config="true" signature="setValues()[pri:0, instance:test.api.salesforce.TC003_GetLead@4c39bec8]" started-at="2025-07-21T15:07:29 IST" name="setValues" finished-at="2025-07-21T15:07:29 IST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setValues -->
+        <test-method is-config="true" signature="startTestCase()[pri:0, instance:test.api.salesforce.TC003_GetLead@4c39bec8]" started-at="2025-07-21T15:07:31 IST" name="startTestCase" finished-at="2025-07-21T15:07:31 IST" duration-ms="4" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startTestCase -->
+        <test-method is-config="true" signature="setNode()[pri:0, instance:test.api.salesforce.TC003_GetLead@4c39bec8]" started-at="2025-07-21T15:07:31 IST" name="setNode" finished-at="2025-07-21T15:07:31 IST" duration-ms="1" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setNode -->
+        <test-method signature="runCreateNewCase()[pri:0, instance:test.api.salesforce.TC003_GetLead@4c39bec8]" started-at="2025-07-21T15:07:31 IST" name="runCreateNewCase" finished-at="2025-07-21T15:07:31 IST" depends-on-methods="test.api.salesforce.TC002_EditLead.runCreateNewCase" duration-ms="249" status="PASS">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- runCreateNewCase -->
+      </class> <!-- test.api.salesforce.TC003_GetLead -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [Suite]" guice-stage="DEVELOPMENT">
+  <test thread-count="5" parallel="classes" name="Test(failed)">
+    <classes>
+      <class name="com.salesforce.testcases.TC003_EditIndividuals">
+        <methods>
+          <include name="startTestCase"/>
+          <include name="postCondition"/>
+          <include name="startReport"/>
+          <include name="setValues"/>
+          <include name="preCondition"/>
+          <include name="editIndividuals" invocation-numbers="0"/>
+          <include name="endResult"/>
+        </methods>
+      </class> <!-- com.salesforce.testcases.TC003_EditIndividuals -->
+      <class name="com.salesforce.testcases.TC021_CreateAccount">
+        <methods>
+          <include name="startTestCase"/>
+          <include name="postCondition"/>
+          <include name="startReport"/>
+          <include name="setValues"/>
+          <include name="runCreateAccount"/>
+          <include name="preCondition"/>
+          <include name="endResult"/>
+        </methods>
+      </class> <!-- com.salesforce.testcases.TC021_CreateAccount -->
+      <class name="com.salesforce.testcases.TC002_CreateIndividuals">
+        <methods>
+          <include name="startTestCase"/>
+          <include name="postCondition"/>
+          <include name="createNewIndividuals"/>
+          <include name="setValues"/>
+          <include name="startReport"/>
+          <include name="preCondition"/>
+          <include name="endResult"/>
+        </methods>
+      </class> <!-- com.salesforce.testcases.TC002_CreateIndividuals -->
+      <class name="com.salesforce.testcases.TC001_CreateNewCase">
+        <methods>
+          <include name="startTestCase"/>
+          <include name="postCondition"/>
+          <include name="setValues"/>
+          <include name="startReport"/>
+          <include name="runCreateNewCase" invocation-numbers="0"/>
+          <include name="preCondition"/>
+          <include name="endResult"/>
+        </methods>
+      </class> <!-- com.salesforce.testcases.TC001_CreateNewCase -->
+      <class name="com.salesforce.testcases.TC017_DeleteAccount">
+        <methods>
+          <include name="startTestCase"/>
+          <include name="postCondition"/>
+          <include name="startReport"/>
+          <include name="runCreateAccount" invocation-numbers="0"/>
+          <include name="setValues"/>
+          <include name="preCondition"/>
+          <include name="endResult"/>
+        </methods>
+      </class> <!-- com.salesforce.testcases.TC017_DeleteAccount -->
+      <class name="com.salesforce.testcases.TC020_DeleteCase2">
+        <methods>
+          <include name="startTestCase"/>
+          <include name="postCondition"/>
+          <include name="setValues"/>
+          <include name="runDeleteCase" invocation-numbers="0"/>
+          <include name="startReport"/>
+          <include name="preCondition"/>
+          <include name="endResult"/>
+        </methods>
+      </class> <!-- com.salesforce.testcases.TC020_DeleteCase2 -->
+    </classes>
+  </test> <!-- Test(failed) -->
+</suite> <!-- Failed suite [Suite] -->
