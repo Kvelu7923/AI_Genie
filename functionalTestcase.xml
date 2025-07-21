@@ -6,30 +6,7 @@
 			<class name="com.salesforce.testcases.TC021_CreateAccount" />
 			<class name="com.salesforce.testcases.TC002_CreateIndividuals" />
  			<class name="com.salesforce.testcases.TC013_CreateOpportunity" />
-		<!--	<class name="com.salesforce.testcases.TC002_CreateIndividuals" />
-		  	<class name="com.salesforce.testcases.TC013_CreateOpportunity" />
-			<class name="com.salesforce.testcases.TC001_CreateNewCase" />
-<!--			<class name="com.salesforce.testcases.TC005_CreateWorkType" />
-			<class name="com.salesforce.testcases.TC007_CreateContact" />
-			<class name="com.salesforce.testcases.TC009_CreateTasks" />
-			<class name="com.salesforce.testcases.TC022_CreateLead" />
-			<class name="com.salesforce.testcases.TC025_CreateLegalEntity" />
-			<class name="com.salesforce.testcases.TC003_EditIndividuals" />
-			<class name="com.salesforce.testcases.TC008_EditContact" />
-			<class name="com.salesforce.testcases.TC010_EditTasks" />
-			<class name="com.salesforce.testcases.TC006_EditWorkType" />
-			<class name="com.salesforce.testcases.TC015_EditCase" />
-			<class name="com.salesforce.testcases.TC016_EditAccount" />
-			<class name="com.salesforce.testcases.TC018_EditOpportunity" />
-			<class name="com.salesforce.testcases.TC023_EditLead" />
-			<class name="com.salesforce.testcases.TC024_EditLegalEntity" />
-			<class name="com.salesforce.testcases.TC004_DeleteIndividuals" />
-			<class name="com.salesforce.testcases.TC011_DeleteTasks" />
-			<class name="com.salesforce.testcases.TC012_DeleteWorkType" />
-			<class name="com.salesforce.testcases.TC014_DeleteContact" />
-			<class name="com.salesforce.testcases.TC017_DeleteAccount" />
-			<class name="com.salesforce.testcases.TC019_DeleteOpportunity" />
-			<class name="com.salesforce.testcases.TC020_DeleteCase2" /> -->
+	
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
