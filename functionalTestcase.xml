@@ -4,13 +4,10 @@
   <test  name="Test" thread-count="2" parallel="classes">
     <classes>
 			<class name="com.salesforce.testcases.TC021_CreateAccount" />
-<<<<<<< HEAD
 			<class name="com.salesforce.testcases.TC002_CreateIndividuals" />
  			<class name="com.salesforce.testcases.TC013_CreateOpportunity" />
-=======
 		<!--	<class name="com.salesforce.testcases.TC002_CreateIndividuals" />
 		  	<class name="com.salesforce.testcases.TC013_CreateOpportunity" />
->>>>>>> d5ff1eb (Added remaining files)
 			<class name="com.salesforce.testcases.TC001_CreateNewCase" />
 <!--			<class name="com.salesforce.testcases.TC005_CreateWorkType" />
 			<class name="com.salesforce.testcases.TC007_CreateContact" />
