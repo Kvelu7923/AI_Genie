@@ -2,13 +2,15 @@ pipeline {
     agent any
 
     triggers {
-        cron('H * * * *')  // Runs every hour at a random minute
+        cron('H * * * *') // every hour
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Kvelu7923/AI_Genie.git'
+                git credentialsId: 'github-creds',
+                    branch: 'main',
+                    url: 'https://github.com/Kvelu7923/AI_Genie.git'
             }
         }
 
