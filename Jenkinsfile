@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     triggers {
-        cron('H * * * *') // every hour
+        cron('H * * * *') // runs every hour
     }
 
     stages {
@@ -16,7 +16,7 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                sh 'mvn clean test'
+                bat 'mvn clean test'   // ✅ For Windows
             }
         }
 
