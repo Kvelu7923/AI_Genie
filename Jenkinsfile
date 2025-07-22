@@ -1,13 +1,29 @@
 pipeline {
     agent any
-    tools {
-        maven 'Maven3'  // This name must match the name you gave above
-    }
+
     stages {
+        stage('Checkout') {
+            steps {
+                git 'https://github.com/Kvelu7923/AI_Genie.git'
+            }
+        }
+
         stage('Build & Test') {
             steps {
-                bat 'mvn clean test'
+                sh 'mvn clean test'
             }
+        }
+
+        stage('Archive Extent Report') {
+            steps {
+                archiveArtifacts artifacts: 'reports/**/*.html', allowEmptyArchive: true
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "✅ Pipeline Done. Check report under 'Archived Artifacts'."
         }
     }
 }
