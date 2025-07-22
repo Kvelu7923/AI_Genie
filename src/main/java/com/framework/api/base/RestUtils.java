@@ -74,7 +74,7 @@ public class RestUtils extends Reporter {
 	public RestAssert postForOAuth(Map<String, Object> formData, String endpoint) {
 		RequestSpecification request = RestAssured.given().contentType(ContentType.URLENC).formParams(formData);
 		lastResponse = request.post(endpoint);
-		lastResponse.prettyPrint();
+//		lastResponse.prettyPrint();
 		// logResponse();
 		return new RestAssert(lastResponse, this);
 	}

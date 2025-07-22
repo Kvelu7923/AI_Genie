@@ -68,7 +68,7 @@ public class APIBase extends RestUtils {
 		String token = restAssert.getResponse().jsonPath().getString("access_token");
 
 		if (token != null && !token.isEmpty()) {
-			System.out.println("OAuth Token generated: " + token);
+//			System.out.println("OAuth Token generated: " + token);
 			saveTokenToProperties(token);
 			// Save to properties
 		} else {
