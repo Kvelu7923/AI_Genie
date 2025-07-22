@@ -1,19 +1,13 @@
 pipeline {
     agent any
+
     triggers {
-        cron('H * * * *') // Every hour at a different minute
+        cron('H * * * *') // runs every hour at different minute per executor
     }
 
     stages {
-        stage('Checkout') {
-            steps {
-                git 'https://github.com/Kvelu7923/AI_Genie.git'
-            }
-        }
-
         stage('Build & Test') {
             steps {
-                // If using Windows, use 'bat'. For Linux/macOS, use 'sh'
                 bat 'mvn clean test'
             }
         }
@@ -21,7 +15,6 @@ pipeline {
         stage('Find Latest Report') {
             steps {
                 script {
-                    // Get the latest report folder name (based on timestamp)
                     def reportFolder = bat(script: '''
                         for /f "delims=" %%a in ('dir reports /b /ad /o-d') do (
                             echo %%a
