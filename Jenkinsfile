@@ -2,13 +2,13 @@ pipeline {
     agent any
 
     environment {
-        REPORT_DIR = ''
+        REPORTS_DIR = "reports"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git url: 'https://github.com/Kvelu7923/AI_Genie.git', branch: 'main'
+                git 'https://github.com/Kvelu7923/AI_Genie.git'
             }
         }
 
@@ -21,32 +21,35 @@ pipeline {
         stage('Find Latest Report Folder') {
             steps {
                 script {
-                    def reportBase = "reports"
-                    def folders = new File(reportBase).listFiles().findAll { it.isDirectory() }
-                    if (!folders || folders.size() == 0) {
-                        error "❌ No report folders found in 'reports/'."
+                    def reportFolders = findFiles(glob: "${REPORTS_DIR}/*/result.html")
+                    if (reportFolders.length == 0) {
+                        error "❌ No report.html found!"
                     }
-                    def latestFolder = folders.max { it.lastModified() }
-                    env.REPORT_DIR = latestFolder.toString().replace("\\", "/")
-                    echo "✅ Latest report folder found: ${env.REPORT_DIR}"
+                    // Pick the latest by sorting based on folder names (timestamp)
+                    latestReport = reportFolders.sort { a, b -> 
+                        return b.name <=> a.name
+                    }[0]
+                    env.LATEST_REPORT_DIR = latestReport.path.replace('/result.html', '')
+                    echo "✅ Found latest report folder: ${env.LATEST_REPORT_DIR}"
                 }
             }
         }
 
-        stage('Archive Extent Report') {
+        stage('Archive Extent Report + Images') {
             steps {
-                archiveArtifacts artifacts: "${env.REPORT_DIR}/**/*", fingerprint: true
+                archiveArtifacts artifacts: "${env.LATEST_REPORT_DIR}/**", allowEmptyArchive: true
             }
         }
 
         stage('Publish HTML Report') {
             steps {
-                publishHTML(target: [
-                    reportDir: "${env.REPORT_DIR}",
-                    reportFiles: 'result.html',
-                    reportName: 'Extent Report',
+                publishHTML([
+                    allowMissing: false,
+                    alwaysLinkToLastBuild: true,
                     keepAll: true,
-                    alwaysLinkToLastBuild: true
+                    reportDir: "${env.LATEST_REPORT_DIR}",
+                    reportFiles: 'result.html',
+                    reportName: 'Extent Report'
                 ])
             }
         }
@@ -54,7 +57,7 @@ pipeline {
 
     post {
         always {
-            echo "✅ Jenkins pipeline completed. You can view the report in 'Extent Report' tab or Archived Artifacts."
+            echo "✅ Jenkins pipeline completed. View 'Extent Report' tab or Archived Artifacts."
         }
     }
 }
