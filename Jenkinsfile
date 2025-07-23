@@ -2,14 +2,13 @@ pipeline {
     agent any
 
     environment {
-        // Find the latest report folder dynamically (most recent by creation date)
-        REPORT_FOLDER = ''
+        REPORT_DIR = ''
     }
 
     stages {
         stage('Checkout') {
             steps {
-                git 'https://github.com/Kvelu7923/AI_Genie.git'
+                git url: 'https://github.com/Kvelu7923/AI_Genie.git', branch: 'main'
             }
         }
 
@@ -22,31 +21,27 @@ pipeline {
         stage('Find Latest Report Folder') {
             steps {
                 script {
-                    def reportsDir = new File("${env.WORKSPACE}/reports")
-                    if (reportsDir.exists()) {
-                        def folders = reportsDir.listFiles().findAll { it.isDirectory() }
-                        def latestFolder = folders.max { it.lastModified() }
-                        env.REPORT_FOLDER = latestFolder.path
-                        echo "✅ Latest report folder: ${env.REPORT_FOLDER}"
-                    } else {
-                        error "❌ reports folder not found."
-                    }
+                    def reportBase = "reports"
+                    def folders = new File(reportBase).listFiles().findAll { it.isDirectory() }
+                    def latestFolder = folders.max { it.lastModified() }
+                    env.REPORT_DIR = latestFolder.toString().replace("\\", "/")
+                    echo "Latest report folder found: ${env.REPORT_DIR}"
                 }
             }
         }
 
         stage('Archive Extent Report') {
             steps {
-                archiveArtifacts artifacts: "${env.REPORT_FOLDER}/**", allowEmptyArchive: true
+                archiveArtifacts artifacts: "${env.REPORT_DIR}/**/*", fingerprint: true
             }
         }
 
         stage('Publish HTML Report') {
             steps {
-                publishHTML([
-                    reportName: 'Extent Report',
-                    reportDir: "${env.REPORT_FOLDER}",
+                publishHTML(target: [
+                    reportDir: "${env.REPORT_DIR}",
                     reportFiles: 'result.html',
+                    reportName: 'Extent Report',
                     keepAll: true,
                     alwaysLinkToLastBuild: true,
                     allowMissing: false
