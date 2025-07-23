@@ -1,8 +1,9 @@
 pipeline {
     agent any
 
-    triggers {
-        cron('H * * * *') // Runs every hour (at a random minute to avoid load)
+    environment {
+        // Find the latest report folder dynamically (most recent by creation date)
+        REPORT_FOLDER = ''
     }
 
     stages {
@@ -21,36 +22,35 @@ pipeline {
         stage('Find Latest Report Folder') {
             steps {
                 script {
-                    // This sets a global env var for latest report folder
-                    env.LATEST_REPORT_FOLDER = bat(
-                        script: 'for /f "delims=" %i in (\'dir /b /ad /o-d reports\') do @echo %i & goto :done\n:done',
-                        returnStdout: true
-                    ).trim()
-                    echo "✅ Latest report folder found: ${env.LATEST_REPORT_FOLDER}"
+                    def reportsDir = new File("${env.WORKSPACE}/reports")
+                    if (reportsDir.exists()) {
+                        def folders = reportsDir.listFiles().findAll { it.isDirectory() }
+                        def latestFolder = folders.max { it.lastModified() }
+                        env.REPORT_FOLDER = latestFolder.path
+                        echo "✅ Latest report folder: ${env.REPORT_FOLDER}"
+                    } else {
+                        error "❌ reports folder not found."
+                    }
                 }
             }
         }
 
         stage('Archive Extent Report') {
             steps {
-                script {
-                    archiveArtifacts artifacts: "reports/${env.LATEST_REPORT_FOLDER}/**", allowEmptyArchive: false
-                }
+                archiveArtifacts artifacts: "${env.REPORT_FOLDER}/**", allowEmptyArchive: true
             }
         }
 
         stage('Publish HTML Report') {
             steps {
-                script {
-                    publishHTML(target: [
-                        allowMissing: false,
-                        alwaysLinkToLastBuild: true,
-                        keepAll: true,
-                        reportDir: "reports/${env.LATEST_REPORT_FOLDER}",
-                        reportFiles: 'result.html',
-                        reportName: 'Extent Report'
-                    ])
-                }
+                publishHTML([
+                    reportName: 'Extent Report',
+                    reportDir: "${env.REPORT_FOLDER}",
+                    reportFiles: 'result.html',
+                    keepAll: true,
+                    alwaysLinkToLastBuild: true,
+                    allowMissing: false
+                ])
             }
         }
     }
