@@ -9,7 +9,7 @@ pipeline {
     steps {
         git branch: 'main', url: 'https://github.com/Kvelu7923/AI_Genie.git'
     }
-}
+
 
 
         stage('Build & Test') {
