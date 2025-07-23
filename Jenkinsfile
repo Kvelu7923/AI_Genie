@@ -36,9 +36,9 @@ pipeline {
         }
     }
 
-    post {
+   post {
         always {
-            echo "✅ Pipeline Done. View 'result.html' under Archived Artifacts."
+            archiveArtifacts artifacts: 'reports/**/result.html'
         }
     }
 }
