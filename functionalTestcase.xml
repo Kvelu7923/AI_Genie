@@ -3,9 +3,9 @@
 <suite name="Suite" >
   <test  name="Test" thread-count="2" parallel="classes">
     <classes>
-			<class name="com.salesforce.testcases.TC021_CreateAccount" />
 			<class name="com.salesforce.testcases.TC002_CreateIndividuals" />
- 			<class name="com.salesforce.testcases.TC013_CreateOpportunity" />
+		  	<class name="com.salesforce.testcases.TC013_CreateOpportunity" />
+			<class name="com.salesforce.testcases.TC001_CreateNewCase" />
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
