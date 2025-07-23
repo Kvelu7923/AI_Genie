@@ -23,9 +23,12 @@ pipeline {
                 script {
                     def reportBase = "reports"
                     def folders = new File(reportBase).listFiles().findAll { it.isDirectory() }
+                    if (!folders || folders.size() == 0) {
+                        error "❌ No report folders found in 'reports/'."
+                    }
                     def latestFolder = folders.max { it.lastModified() }
                     env.REPORT_DIR = latestFolder.toString().replace("\\", "/")
-                    echo "Latest report folder found: ${env.REPORT_DIR}"
+                    echo "✅ Latest report folder found: ${env.REPORT_DIR}"
                 }
             }
         }
@@ -43,8 +46,7 @@ pipeline {
                     reportFiles: 'result.html',
                     reportName: 'Extent Report',
                     keepAll: true,
-                    alwaysLinkToLastBuild: true,
-                    allowMissing: false
+                    alwaysLinkToLastBuild: true
                 ])
             }
         }
