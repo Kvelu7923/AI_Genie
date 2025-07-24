@@ -29,7 +29,6 @@
 			<class name="com.salesforce.testcases.TC017_DeleteAccount" />
 			<class name="com.salesforce.testcases.TC019_DeleteOpportunity" />
 			<class name="com.salesforce.testcases.TC020_DeleteCase2" /> -->
-
     </classes>
   </test> <!-- Test -->
 </suite> <!-- Suite -->
