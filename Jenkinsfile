@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     triggers {
-        cron('H * * * *') // Runs every hour
+        cron('H * * * *') // Run every hour
     }
 
     environment {
@@ -21,9 +21,8 @@ pipeline {
                 script {
                     echo "🧪 Running Maven tests..."
                     def mvnStatus = bat(script: 'mvn clean test', returnStatus: true)
-
                     if (mvnStatus != 0) {
-                        echo "⚠️ Tests failed, but continuing to archive reports."
+                        echo "⚠️ Tests failed, continuing to archive reports."
                     } else {
                         echo "✅ Tests passed."
                     }
@@ -34,9 +33,17 @@ pipeline {
         stage('Find Latest Report Folder') {
             steps {
                 script {
-                    // Get latest report folder by modification time
-                    def latestDir = bat(script: 'for /f "delims=" %i in (\'dir /b /ad /o-d reports\') do @echo %i & goto :done\n:done', returnStdout: true).trim()
-                    env.LATEST_REPORT_PATH = "${env.REPORTS_DIR}\\${latestDir}"
+                    def output = bat(
+                        script: '''@echo off
+for /f "delims=" %%i in ('dir /b /ad /o-d reports') do (
+    echo %%i
+    goto done
+)
+:done
+''',
+                        returnStdout: true
+                    ).trim()
+                    env.LATEST_REPORT_PATH = "reports\\${output}"
                     echo "🗂️ Latest report folder: ${env.LATEST_REPORT_PATH}"
                 }
             }
