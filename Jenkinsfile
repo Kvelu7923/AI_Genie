@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        TIMESTAMP = "${new Date().format('yyyyMMdd_HHmmss')}"
+        TIMESTAMP = "${new Date().format('dd-MMM-yyyy HH-mm-ss')}"
         REPORT_DIR = "reports\\${env.TIMESTAMP}"
     }
 
@@ -10,6 +10,14 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scm
+            }
+        }
+
+        stage('Set Build Display Name') {
+            steps {
+                script {
+                    currentBuild.displayName = "#${env.BUILD_NUMBER} - ${env.TIMESTAMP}"
+                }
             }
         }
 
