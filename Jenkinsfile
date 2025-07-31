@@ -30,14 +30,17 @@ pipeline {
 
         stage('Publish Report') {
             steps {
-                publishHTML(target: [
-                    reportDir: "${REPORT_DIR}",
-                    reportFiles: 'result.html',
-                    reportName: 'Extent Report',
-                    allowMissing: true,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true
-                ])
+               publishHTML(target: [
+    reportDir: "${REPORT_DIR}",
+    reportFiles: 'result.html',
+    reportName: 'Extent Report',
+    allowMissing: true,
+    alwaysLinkToLastBuild: true,
+    keepAll: true
+])
+
+archiveArtifacts artifacts: "${REPORT_DIR}/**", allowEmptyArchive: true
+
             }
         }
 
