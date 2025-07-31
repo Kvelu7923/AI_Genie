@@ -33,45 +33,60 @@ pipeline {
         stage('Find Latest Report Folder') {
             steps {
                 script {
+                    echo "🔍 Finding latest folder under 'reports/'..."
                     def output = bat(
-                        script: '''@echo off
+                        script: '''
+@echo off
 for /f "delims=" %%i in ('dir /b /ad /o-d reports') do (
     echo %%i
     goto done
 )
 :done
-''',
-                        returnStdout: true
+''', returnStdout: true
                     ).trim()
-                    env.LATEST_REPORT_PATH = "reports\\${output}"
-                    echo "🗂️ Latest report folder: ${env.LATEST_REPORT_PATH}"
+
+                    // Save to Groovy-scoped variable
+                    currentBuild.displayName = "#${env.BUILD_NUMBER} - ${output}"
+                    // Save full relative path to use later
+                    // Use forward slashes (more reliable in Jenkins)
+                    latestReportPath = "reports/${output}"
+                    echo "🗂️ Latest report folder is: ${latestReportPath}"
+                    
+                    // Save to file so it can be accessed again in other steps
+                    writeFile file: 'latest-report-path.txt', text: latestReportPath
                 }
             }
         }
 
-        stage('Archive Extent Report + Images') {
+        stage('Archive Extent Report') {
             steps {
-                archiveArtifacts artifacts: "${env.LATEST_REPORT_PATH}/**", allowEmptyArchive: true
+                script {
+                    def latestReportPath = readFile('latest-report-path.txt').trim()
+                    archiveArtifacts artifacts: "${latestReportPath}/**", allowEmptyArchive: true
+                }
             }
         }
 
         stage('Publish HTML Report') {
             steps {
-                publishHTML(target: [
-                    reportDir: "${env.LATEST_REPORT_PATH}",
-                    reportFiles: 'result.html',
-                    reportName: 'Extent Report',
-                    allowMissing: true,
-                    alwaysLinkToLastBuild: true,
-                    keepAll: true
-                ])
+                script {
+                    def latestReportPath = readFile('latest-report-path.txt').trim()
+                    publishHTML(target: [
+                        reportDir: latestReportPath,
+                        reportFiles: 'result.html',
+                        reportName: 'Extent Report',
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true
+                    ])
+                }
             }
         }
     }
 
     post {
         always {
-            echo "📦 Jenkins pipeline completed. View the report in 'Extent Report' tab or under 'Archived Artifacts'."
+            echo "✅ Jenkins pipeline completed. Report is available in the Extent tab or as an archived artifact."
         }
     }
 }
