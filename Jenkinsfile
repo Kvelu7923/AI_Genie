@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        TIMESTAMP = "${new Date().format('dd-MMM-yyyy_HH-mm-ss')}" // Use _ instead of space
+        TIMESTAMP = "${new Date().format('dd-MMM-yyyy_HH-mm-ss')}"
         REPORT_DIR = "reports\\${env.TIMESTAMP}"
     }
 
@@ -23,17 +23,13 @@ pipeline {
 
         stage('Build & Test') {
             steps {
-                echo "Running Tests and Generating HTML Report..."
-                bat """
-                    mkdir "${REPORT_DIR}"
-                    echo ^<html^>^<body^>^<h1^>Sample Report^</h1^>^</body^>^</html^> > "${REPORT_DIR}\\result.html"
-                """
+                echo "Running Maven Tests and Generating Real HTML Report..."
+                bat "mvn clean test -DsuiteXmlFile=functionalTestcase.xml"
             }
         }
 
         stage('Publish Report') {
             steps {
-                echo "Publishing HTML Report from ${REPORT_DIR}\\result.html"
                 publishHTML(target: [
                     reportDir: "${REPORT_DIR}",
                     reportFiles: 'result.html',
@@ -54,7 +50,7 @@ pipeline {
 
     post {
         always {
-            echo "Pipeline completed. Report located at ${REPORT_DIR}\\result.html"
+            echo "Pipeline completed. Report should be at ${REPORT_DIR}\\result.html"
         }
     }
 }
