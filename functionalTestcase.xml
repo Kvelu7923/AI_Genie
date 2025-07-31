@@ -17,6 +17,7 @@
 			<class name="com.salesforce.testcases.TC010_EditTasks" />
 			<class name="com.salesforce.testcases.TC006_EditWorkType" />
 			<class name="com.salesforce.testcases.TC015_EditCase" />
+	    <class name="com.salesforce.testcases.TC021_CreateAccount" />
 			<class name="com.salesforce.testcases.TC016_EditAccount" />
 			<class name="com.salesforce.testcases.TC018_EditOpportunity" />
 			<class name="com.salesforce.testcases.TC023_EditLead" />
