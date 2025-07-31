@@ -7,7 +7,6 @@
 			<class name="com.salesforce.testcases.TC001_CreateNewCase" />
 	 		<class name="com.salesforce.testcases.TC002_CreateIndividuals" />
 		  	<class name="com.salesforce.testcases.TC013_CreateOpportunity" />
-			<class name="com.salesforce.testcases.TC001_CreateNewCase" />
 			<class name="com.salesforce.testcases.TC005_CreateWorkType" />
 			<class name="com.salesforce.testcases.TC007_CreateContact" />
 			<class name="com.salesforce.testcases.TC009_CreateTasks" />
