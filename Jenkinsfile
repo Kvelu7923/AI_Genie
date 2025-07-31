@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        TIMESTAMP = "${new Date().format('dd-MMM-yyyy HH-mm-ss')}"
+        TIMESTAMP = "${new Date().format('dd-MMM-yyyy_HH-mm-ss')}" // Use _ instead of space
         REPORT_DIR = "reports\\${env.TIMESTAMP}"
     }
 
@@ -16,7 +16,7 @@ pipeline {
         stage('Set Build Display Name') {
             steps {
                 script {
-                    currentBuild.displayName = "#${env.BUILD_NUMBER} - ${env.TIMESTAMP}"
+                    currentBuild.displayName = "#${env.BUILD_NUMBER} - ${env.TIMESTAMP.replace('_', ' ')}"
                 }
             }
         }
@@ -25,8 +25,8 @@ pipeline {
             steps {
                 echo "Running Tests and Generating HTML Report..."
                 bat """
-                    mkdir ${REPORT_DIR}
-                    echo ^<html^>^<body^>^<h1^>Sample Report^<^/h1^>^<^/body^>^<^/html^> > ${REPORT_DIR}\\result.html
+                    mkdir "${REPORT_DIR}"
+                    echo ^<html^>^<body^>^<h1^>Sample Report^</h1^>^</body^>^</html^> > "${REPORT_DIR}\\result.html"
                 """
             }
         }
