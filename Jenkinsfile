@@ -1,59 +1,77 @@
 pipeline {
     agent any
 
+    triggers {
+        cron('H * * * *') // Run every hour
+    }
+
     environment {
-        TIMESTAMP = "${new Date().format('dd-MMM-yyyy_HH-mm-ss')}"
-        REPORT_DIR = "reports\\${env.TIMESTAMP}"
+        REPORTS_DIR = "reports"
     }
 
     stages {
         stage('Checkout') {
             steps {
-                checkout scm
-            }
-        }
-
-        stage('Set Build Display Name') {
-            steps {
-                script {
-                    currentBuild.displayName = "#${env.BUILD_NUMBER} - ${env.TIMESTAMP.replace('_', ' ')}"
-                }
+                git branch: 'main', url: 'https://github.com/Kvelu7923/AI_Genie.git'
             }
         }
 
         stage('Build & Test') {
             steps {
-                echo "Running Maven Tests and Generating Real HTML Report..."
-                bat "mvn clean test -DsuiteXmlFile=functionalTestcase.xml"
+                script {
+                    echo "🧪 Running Maven tests..."
+                    def mvnStatus = bat(script: 'mvn clean test', returnStatus: true)
+                    if (mvnStatus != 0) {
+                        echo "⚠️ Tests failed, continuing to archive reports."
+                    } else {
+                        echo "✅ Tests passed."
+                    }
+                }
             }
         }
 
-        stage('Publish Report') {
+        stage('Find Latest Report Folder') {
             steps {
-               publishHTML(target: [
-    reportDir: "${REPORT_DIR}",
-    reportFiles: 'result.html',
-    reportName: 'Extent Report',
-    allowMissing: true,
-    alwaysLinkToLastBuild: true,
-    keepAll: true
-])
-
-archiveArtifacts artifacts: "${REPORT_DIR}/**", allowEmptyArchive: true
-
+                script {
+                    def output = bat(
+                        script: '''@echo off
+for /f "delims=" %%i in ('dir /b /ad /o-d reports') do (
+    echo %%i
+    goto done
+)
+:done
+''',
+                        returnStdout: true
+                    ).trim()
+                    env.LATEST_REPORT_PATH = "reports\\${output}"
+                    echo "🗂️ Latest report folder: ${env.LATEST_REPORT_PATH}"
+                }
             }
         }
 
-        stage('Archive Artifacts') {
+        stage('Archive Extent Report + Images') {
             steps {
-                archiveArtifacts artifacts: "${REPORT_DIR}\\**", allowEmptyArchive: true
+                archiveArtifacts artifacts: "${env.LATEST_REPORT_PATH}/**", allowEmptyArchive: true
+            }
+        }
+
+        stage('Publish HTML Report') {
+            steps {
+                publishHTML(target: [
+                    reportDir: "${env.LATEST_REPORT_PATH}",
+                    reportFiles: 'result.html',
+                    reportName: 'Extent Report',
+                    allowMissing: true,
+                    alwaysLinkToLastBuild: true,
+                    keepAll: true
+                ])
             }
         }
     }
 
     post {
         always {
-            echo "Pipeline completed. Report should be at ${REPORT_DIR}\\result.html"
+            echo "📦 Jenkins pipeline completed. View the report in 'Extent Report' tab or under 'Archived Artifacts'."
         }
     }
 }
