@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    triggers {
-        cron('H * * * *') // Run every hour
-    }
-
     environment {
         REPORTS_DIR = "reports"
     }
@@ -12,19 +8,19 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Kvelu7923/AI_Genie.git'
+                checkout scm
             }
         }
 
         stage('Build & Test') {
             steps {
+                echo "🧪 Running Maven Tests..."
                 script {
-                    echo "🧪 Running Maven tests..."
-                    def mvnStatus = bat(script: 'mvn clean test', returnStatus: true)
+                    def mvnStatus = bat(script: 'mvn clean test -DsuiteXmlFile=functionalTestcase.xml', returnStatus: true)
                     if (mvnStatus != 0) {
-                        echo "⚠️ Tests failed, continuing to archive reports."
+                        echo "⚠️ Test failures occurred, continuing to archive report."
                     } else {
-                        echo "✅ Tests passed."
+                        echo "✅ Tests executed successfully."
                     }
                 }
             }
@@ -43,15 +39,14 @@ for /f "delims=" %%i in ('dir /b /ad /o-d reports') do (
 ''',
                         returnStdout: true
                     ).trim()
-                    env.LATEST_REPORT_PATH = "reports\\${output}"
-                    echo "🗂️ Latest report folder: ${env.LATEST_REPORT_PATH}"
-                }
-            }
-        }
 
-        stage('Archive Extent Report + Images') {
-            steps {
-                archiveArtifacts artifacts: "${env.LATEST_REPORT_PATH}/**", allowEmptyArchive: true
+                    env.LATEST_REPORT_PATH = "reports\\${output}"
+                    env.TIMESTAMP_NAME = output
+                    echo "🗂️ Found Report: ${env.LATEST_REPORT_PATH}"
+
+                    // Set job display name like: #163 - 31-Jul-2025 17-58-28
+                    currentBuild.displayName = "#${env.BUILD_NUMBER} - ${env.TIMESTAMP_NAME.replace('_', ' ')}"
+                }
             }
         }
 
@@ -67,11 +62,17 @@ for /f "delims=" %%i in ('dir /b /ad /o-d reports') do (
                 ])
             }
         }
+
+        stage('Archive Report & Images') {
+            steps {
+                archiveArtifacts artifacts: "${env.LATEST_REPORT_PATH}/**", allowEmptyArchive: true
+            }
+        }
     }
 
     post {
         always {
-            echo "📦 Jenkins pipeline completed. View the report in 'Extent Report' tab or under 'Archived Artifacts'."
+            echo "✅ Pipeline completed. Report available in 'Extent Report' tab or Artifacts."
         }
     }
 }
