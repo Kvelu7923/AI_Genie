@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    triggers {
+        cron('H * * * *') // 🔁 Runs once every hour at a random minute
+    }
+
     environment {
         REPORTS_DIR = "reports"
     }
@@ -44,7 +48,7 @@ for /f "delims=" %%i in ('dir /b /ad /o-d reports') do (
                     env.TIMESTAMP_NAME = output
                     echo "🗂️ Found Report: ${env.LATEST_REPORT_PATH}"
 
-                    // Set job display name like: #163 - 31-Jul-2025 17-58-28
+                    // 💡 Set the display name like: #163 - 31-Jul-2025 17-58-28
                     currentBuild.displayName = "#${env.BUILD_NUMBER} - ${env.TIMESTAMP_NAME.replace('_', ' ')}"
                 }
             }
